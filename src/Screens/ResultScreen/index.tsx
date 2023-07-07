@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../Routes';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ScreenName from '../../Routes/ScreenName';
 
 type ResultScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, ScreenName.Result>;
   route: RouteProp<RootStackParamList, 'Result'>;
 };
 
-const ResultScreen: React.FC<ResultScreenProps> = ({ route }) => {
+const ResultScreen: React.FC<ResultScreenProps> = ({ navigation, route }) => {
   const { number } = route.params;
-  const navigation = useNavigation();
 
-  const handleScanAgainPress = () => {
-    navigation.goBack();
-  };
+  const handleScanAgainPress = useCallback(() => {
+    navigation.navigate(ScreenName.Scanner);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

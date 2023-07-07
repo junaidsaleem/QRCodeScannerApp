@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useCallback} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenName from '../../Routes/ScreenName';
@@ -9,9 +9,9 @@ type HomeScreenProps = {
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const handleButtonPress = () => {
+  const handleButtonPress = useCallback(() => {
     navigation.navigate(ScreenName.Scanner);
-  };
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

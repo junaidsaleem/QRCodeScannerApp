@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -12,7 +12,11 @@ type QRCodeScannerProps = {
 const QRCodeScannerComponent: React.FC<QRCodeScannerProps> = ({ navigation }) => {
     const scannerRef = useRef<QRCodeScanner | null>(null);
 
-    const handleQRCodeScanned = ({ data }: any) => {
+    const handleCancelPress = useCallback(() => {
+        navigation.navigate(ScreenName.Home);
+      }, [navigation]);
+
+    const handleQRCodeScanned = useCallback(({ data }: any) => {
         if (isValidQRCode(data)) {
             navigation.navigate(ScreenName.Result, { number: data });
         } else {
@@ -36,7 +40,7 @@ const QRCodeScannerComponent: React.FC<QRCodeScannerProps> = ({ navigation }) =>
         if (scannerRef.current) {
             scannerRef.current.reactivate();
         }
-    };
+    }, [navigation]);
 
     const isValidQRCode = (data: string) => {
         return /^\d{6}$/.test(data);
@@ -49,7 +53,7 @@ const QRCodeScannerComponent: React.FC<QRCodeScannerProps> = ({ navigation }) =>
             showMarker
             topContent={<Text style={styles.centerText}>Scan a QR code to get a 6-digit number</Text>}
             bottomContent={
-                <TouchableOpacity style={styles.buttonTouchable} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.buttonTouchable} onPress={handleCancelPress}>
                     <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
             }
