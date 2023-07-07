@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ScreenName from '../../Routes/ScreenName';
+import { RootStackParamList } from '../../Routes';
 
-const HomeScreen: React.FC = () => {
-  const navigation = useNavigation();
+type HomeScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, ScreenName.Home>;
+};
 
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const handleButtonPress = () => {
-    navigation.navigate('Scanner');
+    navigation.navigate(ScreenName.Scanner);
   };
 
   return (

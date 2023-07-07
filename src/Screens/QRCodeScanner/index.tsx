@@ -1,17 +1,20 @@
 import React, { useRef } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ScreenName from '../../Routes/ScreenName';
+import { RootStackParamList } from '../../Routes';
 
-type QRCodeScannerProps = {};
+type QRCodeScannerProps = {
+    navigation: StackNavigationProp<RootStackParamList, ScreenName.Scanner>;
+};
 
-const QRCodeScannerComponent: React.FC<QRCodeScannerProps> = () => {
-    const navigation = useNavigation();
+const QRCodeScannerComponent: React.FC<QRCodeScannerProps> = ({ navigation }) => {
     const scannerRef = useRef<QRCodeScanner | null>(null);
 
     const handleQRCodeScanned = ({ data }: any) => {
         if (isValidQRCode(data)) {
-            navigation.navigate('Result', { number: data });
+            navigation.navigate(ScreenName.Result, { number: data });
         } else {
             Alert.alert(
                 'Invalid QR code',
